@@ -82,6 +82,31 @@ app.delete("/api/admissions/:id", async(req, res) => {
     }
 });
 
+// 🎓 STUDENT LOGIN (NEW)
+app.post("/api/student/login", async(req, res) => {
+    try {
+        const { studentName, phone } = req.body;
+
+        const student = await Admission.findOne({
+            studentName,
+            phone
+        });
+
+        if (!student) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+
+        res.json({
+            message: "Login successful",
+            student: student
+        });
+
+    } catch (error) {
+        res.status(500).json({ error: "Login failed" });
+    }
+});
+
+
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
