@@ -1,4 +1,4 @@
-const Admission = require("../models/Admission");
+const Admission = require("../Models/Admissions");
 
 // Save Admission
 exports.createAdmission = async(req, res) => {
