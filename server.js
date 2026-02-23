@@ -26,7 +26,7 @@ app.listen(PORT, () => {
 });
 
 
-const galleryRoutes = require("./Routes/galleryRoutes");
+const galleryRoutes = require("/Routes/galleryRoutes");
 
 app.use("/api", galleryRoutes);
 
