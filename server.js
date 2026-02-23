@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
-const admissionRoutes = require("./Routes/admissionRoutes");
+const admissionRoutes = require("../Routes/admissionRoutes");
 
 const PORT = process.env.PORT || 5000;
 
@@ -26,7 +26,7 @@ app.listen(PORT, () => {
 });
 
 
-const galleryRoutes = require("/Routes/galleryRoutes");
+const galleryRoutes = require("../Routes/galleryRoutes");
 
 app.use("/api", galleryRoutes);
 
