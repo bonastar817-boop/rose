@@ -32,7 +32,8 @@ const storage = new CloudinaryStorage({
     }
 });
 
-const upload = multer({ storage });
+const upload = multer({ dest: "uploads/" });
+
 
 
 mongoose.connect(process.env.MONGO_URI)
@@ -138,18 +139,28 @@ app.post("/api/student/login", async(req, res) => {
     }
 });
 
-// 📸 Upload Photo
 app.post("/api/gallery/upload", upload.single("image"), async(req, res) => {
     try {
-        const newPhoto = new Gallery({
-            imageUrl: req.file.path
+        if (!req.file) {
+            return res.status(400).json({ error: "No file uploaded" });
+        }
+
+        const result = await cloudinary.uploader.upload(req.file.path);
+
+        const newImage = new Gallery({
+            imageUrl: result.secure_url
         });
 
-        await newPhoto.save();
+        await newImage.save();
 
-        res.json({ message: "Photo uploaded successfully!" });
+        // delete local file after upload
+        fs.unlinkSync(req.file.path);
+
+        res.json({ message: "Image uploaded successfully!" });
+
     } catch (error) {
-        res.status(500).json({ error: "Upload failed" });
+        console.error(error);
+        res.status(500).json({ error: "Upload failed check backend" });
     }
 });
 
